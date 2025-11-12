@@ -52,6 +52,7 @@ async def llm_complete(
             + "\n".join([m["content"] for m in history_messages])
         )
     )
+    results = str(results) if not isinstance(results, str) else results
     out_tokens = len(get_encoded_tokens(results))
 
     # await project_cost_token_billing(project_id, in_tokens, out_tokens)
