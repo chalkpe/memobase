@@ -39,7 +39,7 @@ async def process_blobs(
     user_id: str, project_id: str, blobs: list[Blob]
 ) -> Promise[ChatModalResponse]:
     # 1. Extract patch profiles
-    blobs = truncate_chat_blobs(blobs, CONFIG.max_chat_blob_buffer_process_token_size)
+    # blobs = truncate_chat_blobs(blobs, CONFIG.max_chat_blob_buffer_process_token_size)
     if len(blobs) == 0:
         return Promise.reject(
             CODE.SERVER_PARSE_ERROR, "No blobs to process after truncating"
