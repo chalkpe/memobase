@@ -150,7 +150,7 @@ def get_blob_str(blob: Blob):
 
 
 def get_blob_token_size(blob: Blob):
-    return len(get_encoded_tokens(get_blob_str(blob)))
+    return get_encoded_tokens_count(get_blob_str(blob))
 
 
 def seconds_from_now(dt: datetime):
