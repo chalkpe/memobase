@@ -3,7 +3,7 @@ from ..models.utils import Promise
 from ..models.database import GeneralBlob, UserProfile
 from ..models.response import CODE, IdData, IdsData, UserProfilesData, ProfileAttributes
 from ..connectors import Session, get_redis_client
-from ..utils import get_encoded_tokens
+from ..utils import get_encoded_tokens_count
 from ..env import CONFIG, TRACE_LOG
 
 
@@ -64,7 +64,7 @@ async def truncate_profiles(
         use_index = 0
         for max_i, p in enumerate(profiles.profiles):
             single_p = f"{p.attributes.get('topic')}::{p.attributes.get('sub_topic')}: {p.content}"
-            current_length += len(get_encoded_tokens(single_p))
+            current_length += get_encoded_tokens_count(single_p)
             if current_length > max_token_size:
                 break
             use_index = max_i

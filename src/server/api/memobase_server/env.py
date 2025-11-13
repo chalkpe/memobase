@@ -7,7 +7,6 @@ import datetime
 import json
 import yaml
 import logging
-import tiktoken
 import dataclasses
 from dataclasses import dataclass, field
 from typing import Optional, Literal, Union
@@ -285,8 +284,6 @@ else:
     handler.setFormatter(formatter)
     LOG.addHandler(handler)
 
-
-ENCODER = tiktoken.encoding_for_model("gpt-4o")
 
 CONFIG = Config.load_config()
 

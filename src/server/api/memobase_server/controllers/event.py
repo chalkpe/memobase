@@ -3,7 +3,7 @@ from ..models.database import UserEvent, UserEventGist
 from ..models.response import UserEventData, UserEventsData, EventData
 from ..models.utils import Promise, CODE
 from ..connectors import Session
-from ..utils import get_encoded_tokens, event_str_repr, event_embedding_str
+from ..utils import get_encoded_tokens_count, event_str_repr, event_embedding_str
 
 from ..llms.embeddings import get_embedding
 from datetime import timedelta
@@ -57,7 +57,7 @@ async def truncate_events(
     c_tokens = 0
     truncated_results = []
     for r in events.events:
-        c_tokens += len(get_encoded_tokens(event_str_repr(r)))
+        c_tokens += get_encoded_tokens_count(event_str_repr(r))
         if c_tokens > max_token_size:
             break
         truncated_results.append(r)

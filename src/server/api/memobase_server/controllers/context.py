@@ -2,7 +2,7 @@ from functools import partial
 from ..models.utils import Promise, CODE
 from ..models.response import ContextData, OpenAICompatibleMessage, UserEventGistsData
 from ..prompts.chat_context_pack import CONTEXT_PROMPT_PACK
-from ..utils import get_encoded_tokens, event_str_repr
+from ..utils import get_encoded_tokens_count
 from ..env import CONFIG, TRACE_LOG
 from .project import get_project_profile_config
 from .profile import get_user_profiles, truncate_profiles
@@ -188,7 +188,7 @@ async def get_user_context(
     user_event_gists = event_gist_result.data()
 
     # Calculate token sizes and truncate events if needed
-    profile_section_tokens = len(get_encoded_tokens(profile_section))
+    profile_section_tokens = get_encoded_tokens_count(profile_section)
     if fill_window_with_events:
         max_event_token_size = max_token_size - profile_section_tokens
     else:
@@ -209,7 +209,7 @@ async def get_user_context(
     user_event_gists = p.data()
 
     event_section = "\n".join([ed.gist_data.content for ed in user_event_gists.gists])
-    event_section_tokens = len(get_encoded_tokens(event_section))
+    event_section_tokens = get_encoded_tokens_count(event_section)
 
     TRACE_LOG.info(
         project_id,

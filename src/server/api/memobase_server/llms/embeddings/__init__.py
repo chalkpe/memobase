@@ -11,7 +11,7 @@ from .openai_embedding import openai_embedding
 from .lmstudio_embedding import lmstudio_embedding
 from .ollama_embedding import ollama_embedding
 from ...telemetry import telemetry_manager, HistogramMetricName, CounterMetricName
-from ...utils import get_encoded_tokens
+from ...utils import get_encoded_tokens_count
 
 FACTORIES = {"openai": openai_embedding, "jina": jina_embedding, "lmstudio": lmstudio_embedding, "ollama": ollama_embedding}
 assert (
@@ -51,7 +51,7 @@ async def get_embedding(
     except Exception as e:
         LOG.error(f"Error in get_embedding: {e} {format_exc()}")
         return Promise.reject(CODE.SERVICE_UNAVAILABLE, f"Error in get_embedding: {e}")
-    embedding_tokens = len(get_encoded_tokens("\n".join(texts)))
+    embedding_tokens = get_encoded_tokens_count("\n".join(texts))
     telemetry_manager.increment_counter_metric(
         CounterMetricName.EMBEDDING_TOKENS,
         embedding_tokens,

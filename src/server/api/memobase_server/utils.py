@@ -5,7 +5,8 @@ from typing import cast
 from datetime import timezone, datetime
 from functools import wraps
 from pydantic import ValidationError
-from .env import ENCODER, LOG, CONFIG, ProfileConfig
+from google import genai
+from .env import LOG, CONFIG, ProfileConfig
 from .models.blob import (
     Blob,
     BlobType,
@@ -84,18 +85,15 @@ def find_list_int_or_none(content: str) -> list[int] | None:
     return [int(i.strip()) for i in ids.split(",")]
 
 
-def get_encoded_tokens(content: str) -> list[int]:
-    return ENCODER.encode(content)
+tokenizer = genai.LocalTokenizer(model_name='gemini-2.5-pro')
 
 
-def get_decoded_tokens(tokens: list[int]) -> str:
-    return ENCODER.decode(tokens)
+def get_encoded_tokens_count(content: str) -> int:
+    return tokenizer.count_tokens(content)
 
 
 def truncate_string(content: str, max_tokens: int) -> str:
-    tokens = get_encoded_tokens(content)
-    tailing = "" if len(tokens) <= max_tokens else "..."
-    return get_decoded_tokens(tokens[:max_tokens]) + tailing
+    return content
 
 
 def pack_blob_from_db(blob: GeneralBlob, blob_type: BlobType) -> Blob:

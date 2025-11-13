@@ -2,7 +2,7 @@ import asyncio
 from ...project import get_project_profile_config
 from ....connectors import Session
 from ....env import ProfileConfig, CONFIG, TRACE_LOG
-from ....utils import get_blob_str, get_encoded_tokens
+from ....utils import get_blob_str, get_encoded_tokens_count
 from ....models.blob import Blob
 from ....models.utils import Promise, CODE
 from ....models.response import IdsData, ChatModalResponse, UserProfilesData
@@ -26,7 +26,7 @@ def truncate_chat_blobs(
     results = []
     total_token_size = 0
     for b in blobs[::-1]:
-        ts = len(get_encoded_tokens(get_blob_str(b)))
+        ts = get_encoded_tokens_count(get_blob_str(b))
         total_token_size += ts
         if total_token_size <= max_token_size:
             results.append(b)

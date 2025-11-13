@@ -1,7 +1,7 @@
 import asyncio
 import time
 from ..prompts.utils import convert_response_to_json
-from ..utils import get_encoded_tokens
+from ..utils import get_encoded_tokens_count
 from ..env import CONFIG, LOG
 from ..controllers.billing import project_cost_token_billing
 from ..models.utils import Promise
@@ -45,15 +45,13 @@ async def llm_complete(
         LOG.error(f"Error in llm_complete: {e}")
         return Promise.reject(CODE.SERVICE_UNAVAILABLE, f"Error in llm_complete: {e}")
 
-    in_tokens = len(
-        get_encoded_tokens(
-            prompt
-            + (system_prompt or "")
-            + "\n".join([m["content"] for m in history_messages])
-        )
+    in_tokens = get_encoded_tokens_count(
+        prompt
+        + (system_prompt or "")
+        + "\n".join([m["content"] for m in history_messages])
     )
     results = str(results) if not isinstance(results, str) else results
-    out_tokens = len(get_encoded_tokens(results))
+    out_tokens = get_encoded_tokens_count(results)
 
     # await project_cost_token_billing(project_id, in_tokens, out_tokens)
     asyncio.create_task(project_cost_token_billing(project_id, in_tokens, out_tokens))

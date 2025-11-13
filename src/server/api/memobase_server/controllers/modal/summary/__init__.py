@@ -4,7 +4,7 @@ from sqlalchemy.sql.functions import user
 from ...project import get_project_profile_config
 from ...profile import get_user_profiles
 from ....models.blob import Blob, SummaryBlob
-from ....utils import get_blob_str, get_encoded_tokens
+from ....utils import get_blob_str
 from ....models.blob import Blob
 from ....models.utils import Promise, CODE
 from ....models.response import IdsData, ChatModalResponse

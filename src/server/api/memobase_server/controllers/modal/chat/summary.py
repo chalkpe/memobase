@@ -1,7 +1,7 @@
 import asyncio
 from ....models.utils import Promise, CODE
 from ....env import CONFIG, TRACE_LOG
-from ....utils import get_blob_str, get_encoded_tokens, truncate_string
+from ....utils import get_blob_str, get_encoded_tokens_count, truncate_string
 from ....llms import llm_complete
 from ....prompts import (
     summary_profile,
@@ -30,7 +30,7 @@ async def summary_memo(
     user_id: str, project_id: str, content_pack: dict
 ) -> Promise[None]:
     content = content_pack["content"]
-    if len(get_encoded_tokens(content)) <= CONFIG.max_pre_profile_token_size:
+    if get_encoded_tokens_count(content) <= CONFIG.max_pre_profile_token_size:
         return Promise.resolve(None)
     r = await llm_complete(
         project_id,

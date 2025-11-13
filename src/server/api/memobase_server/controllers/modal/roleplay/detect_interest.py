@@ -1,6 +1,5 @@
 from ....models.utils import Promise, CODE
 from ....env import CONFIG, LOG, ProfileConfig
-from ....utils import get_encoded_tokens, truncate_string
 from ....llms import llm_complete
 from ....models.blob import OpenAICompatibleMessage
 from .types import PROMPTS, ChatInterest
