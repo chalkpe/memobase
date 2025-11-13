@@ -89,7 +89,8 @@ tokenizer = LocalTokenizer(model_name='gemini-2.5-pro')
 
 
 def get_encoded_tokens_count(content: str) -> int:
-    return tokenizer.count_tokens(content)
+    result = tokenizer.count_tokens(content)
+    return result.total_tokens if result.total_tokens else 0
 
 
 def truncate_string(content: str, max_tokens: int) -> str:
