@@ -24,7 +24,7 @@ async def llm_complete(
     history_messages=[],
     json_mode=False,
     model=None,
-    max_tokens=1024,
+    max_tokens=65536,
     **kwargs,
 ) -> Promise[str | dict]:
     use_model = model or CONFIG.best_llm_model
