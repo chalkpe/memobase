@@ -5,7 +5,7 @@ from typing import cast
 from datetime import timezone, datetime
 from functools import wraps
 from pydantic import ValidationError
-from google import genai
+from google.genai.local_tokenizer import LocalTokenizer
 from .env import LOG, CONFIG, ProfileConfig
 from .models.blob import (
     Blob,
@@ -85,7 +85,7 @@ def find_list_int_or_none(content: str) -> list[int] | None:
     return [int(i.strip()) for i in ids.split(",")]
 
 
-tokenizer = genai.LocalTokenizer(model_name='gemini-2.5-pro')
+tokenizer = LocalTokenizer(model_name='gemini-2.5-pro')
 
 
 def get_encoded_tokens_count(content: str) -> int:
