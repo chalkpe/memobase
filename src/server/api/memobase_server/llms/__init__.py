@@ -79,6 +79,8 @@ async def llm_complete(
         {"project_id": project_id},
     )
 
+    LOG.debug(f"results from llm_complete: {results}")
+
     if not json_mode:
         return Promise.resolve(results)
     parse_dict = convert_response_to_json(results)
