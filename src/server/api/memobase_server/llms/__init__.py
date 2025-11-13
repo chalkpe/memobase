@@ -79,14 +79,13 @@ async def llm_complete(
         {"project_id": project_id},
     )
 
-    LOG.debug(f"results from llm_complete: {results}")
-
     if not json_mode:
         return Promise.resolve(results)
     parse_dict = convert_response_to_json(results)
     if parse_dict is not None:
         return Promise.resolve(parse_dict)
     else:
+        LOG.error(f"Failed to parse JSON response: {results}")
         return Promise.reject(
             CODE.UNPROCESSABLE_ENTITY, "Failed to parse JSON response"
         )
