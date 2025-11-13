@@ -85,7 +85,7 @@ async def llm_complete(
     if parse_dict is not None:
         return Promise.resolve(parse_dict)
     else:
-        LOG.error(f"Failed to parse JSON response: {results}")
+        LOG.info(f"Failed to parse JSON response: {results}")
         return Promise.reject(
             CODE.UNPROCESSABLE_ENTITY, "Failed to parse JSON response"
         )
